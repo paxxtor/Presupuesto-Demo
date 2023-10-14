@@ -45,3 +45,15 @@ const formatoMoneda = (valor) =>{
 const formatoPorcentaje = (valor) =>{
     return valor.toLocaleString('en-US',{style:'percent',minimumFractionDigits: 1});
 }
+
+const cargarIngresos = () =>{
+    let ingresosHTML = '';
+    for(let ingreso of ingresos){
+        ingresosHTML += crearIngresoHTML(ingreso);
+    }
+    document.getElementById('lista-ingresos').innerHTML = ingresosHTML;
+}
+
+const crearIngresoHTML = (ingreso) =>{
+    
+}
