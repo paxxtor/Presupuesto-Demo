@@ -46,9 +46,9 @@ let cargarCabecero = () => {
 };
 
 const formatoMoneda = (valor) => {
-  return valor.toLocaleString("en-US", {
+  return valor.toLocaleString("es-GT", {
     style: "currency",
-    currency: "USD",
+    currency: "GTQ",
     minimumFractionDigits: 2,
   });
 };
@@ -83,6 +83,13 @@ const eliminarIngreso =(id)=>{
   cargarIngresos();
 };
 
+const eliminarEgreso = (id) =>{
+  let indiceEliminar = egresos.findIndex(Egresox  => Egresox.ID === id);
+  egresos.splice(indiceEliminar,1);
+  cargarCabecero();
+  cargarEgresos();
+};
+
 const crearIngresoHTML = (ingreso) => {
   let ingresoHTML = `<div class="elemento limpiarEstilos">
   <div class="elemento_descripcion">${ingreso.Descripcion}</div>
@@ -102,14 +109,33 @@ const crearEgresosHTML = (egreso) => {
   let egresosHTML = `<div class="elemento limpiarEstilos">
     <div class="elemento_descripcion">${egreso.Descripcion}</div>
     <div class="derecha limpiarEstilos">
-        <div class="elemento_valor">-${egreso.Valor}</div>
+        <div class="elemento_valor">-${formatoMoneda(egreso.Valor)}</div>
         <div class="elemento_porcentaje">${formatoPorcentaje(egreso.Valor / totalEgresos())}</div>
         <div class="elemento_eliminar">
             <button class="elemento_eliminar--btn">
-        <ion-icon name="close-circle-outline"></ion-icon>
+        <ion-icon name="close-circle-outline" onclick='eliminarEgreso(${egreso.ID})'></ion-icon>
             </button>
         </div>
     </div>
 </div>`;
   return egresosHTML;
 };
+
+let agregarDato = () =>{
+  let forma = document.forms['forma'];
+  let tipo = forma['tipo'];
+  let descripcion = forma['descripcion'];
+  let valor = forma['valor'];
+  if(descripcion.value !== '' && valor.value !== ''){
+    if(tipo.value === 'ingreso'){
+      ingresos.push(new Ingreso(descripcion.value, +valor.value));
+      cargarCabecero();
+      cargarIngresos();
+    }
+    else if(tipo.value === 'egreso'){
+      egresos.push(new Egreso(descripcion.value, +valor.value));
+      cargarCabecero();
+      cargarEgresos();
+    }
+  }
+}
