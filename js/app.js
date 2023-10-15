@@ -76,14 +76,21 @@ const cargarEgresos = () => {
   document.getElementById("lista-egresos").innerHTML = egresosHTML;
 };
 
+const eliminarIngreso =(id)=>{
+  let indiceEliminar = ingresos.findIndex(Ingreso => Ingreso.ID === id);
+  ingresos.splice(indiceEliminar,1);
+  cargarCabecero();
+  cargarIngresos();
+};
+
 const crearIngresoHTML = (ingreso) => {
   let ingresoHTML = `<div class="elemento limpiarEstilos">
   <div class="elemento_descripcion">${ingreso.Descripcion}</div>
   <div class="derecha limpiarEstilos">
     <div class="elemento_valor">+${formatoMoneda(ingreso.Valor)}</div>
     <div class="elemento_eliminar">
-      <button class="elemento_eliminar--btn">
-          <ion-icon name="close-circle-outline"></ion-icon>
+      <button class="elemento_eliminar--btn" >
+          <ion-icon name="close-circle-outline" onclick='eliminarIngreso(${ingreso.ID})'> </ion-icon>
       </button>
     </div>
   </div>
